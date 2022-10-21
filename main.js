@@ -80,11 +80,13 @@
 
 
 // export default PizzaTranslator;
-import React, { Component } from "react";
+import React, { Component, startTransition } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Button from "./components/Button";
+import TabButton from "./components/Tab-Button";
 import Row from "./components/Row";
 import calculator, { initialState } from "./components/calculator";
+
 
 // create class component of App
 export default class Main extends Component {
@@ -101,11 +103,11 @@ export default class Main extends Component {
 
       <View style={styles.container}>
         {/* Status bae here */}
-        <Button
+        {/* <Button
           title="Go to Details"
           onPress={() => navigation.navigate('Details')}
-        />
-        <SafeAreaView>
+        /> */}
+        <SafeAreaView className="panel-content">
           <Text style={styles.value}>
             {(this.state.previousValue) ? parseFloat(this.state.previousValue).toLocaleString() : ""}
           </Text>
@@ -115,35 +117,29 @@ export default class Main extends Component {
           <Text style={styles.value}>
             {parseFloat(this.state.currentValue).toLocaleString()}
           </Text>
-
-
           {/* Do create componentRow */}
           <Row>
             <Button
               text="C"
               theme="secondary"
               onPress={() => this.HandleTap("clear")}
-            />
-
+              />
             <Button
               text="+/-"
               theme="secondary"
               onPress={() => this.HandleTap("posneg")}
-            />
-
+              />
             <Button
               text="%"
               theme="secondary"
               onPress={() => this.HandleTap("percentage")}
-            />
-
+              />
             <Button
               text="/"
               theme="accent"
               onPress={() => this.HandleTap("operator", "/")}
-            />
+              />
           </Row>
-
           {/* Number */}
           <Row>
             <Button text="7" onPress={() => this.HandleTap("number", 7)} />
@@ -155,7 +151,6 @@ export default class Main extends Component {
               onPress={() => this.HandleTap("operator", "*")}
             />
           </Row>
-
           <Row>
             <Button text="5" onPress={() => this.HandleTap("number", 5)} />
             <Button text="6" onPress={() => this.HandleTap("number", 6)} />
@@ -164,9 +159,8 @@ export default class Main extends Component {
               text="-"
               theme="accent"
               onPress={() => this.HandleTap("operator", "-")}
-            />
+              />
           </Row>
-
           <Row>
             <Button text="1" onPress={() => this.HandleTap("number", 1)} />
             <Button text="2" onPress={() => this.HandleTap("number", 2)} />
@@ -175,9 +169,8 @@ export default class Main extends Component {
               text="+"
               theme="accent"
               onPress={() => this.HandleTap("operator", "+")}
-            />
+              />
           </Row>
-
           <Row>
             <Button text="0" onPress={() => this.HandleTap("number", 0)} />
             <Button text="." onPress={() => this.HandleTap("number", ".")} />
@@ -185,9 +178,10 @@ export default class Main extends Component {
               text="="
               theme="primary"
               onPress={() => this.HandleTap("equal", "=")}
-            />
+              />
           </Row>
         </SafeAreaView>
+
       </View>
     );
   }
@@ -196,9 +190,8 @@ export default class Main extends Component {
 // create styles of app
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#202020",
-    justifyContent: "flex-end",
+    flex: "auto",
   },
   value: {
     color: "#fff",
@@ -206,5 +199,11 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginRight: 20,
     marginBottom: 10,
+  },
+  react_tab_list: {
+    justifyContent: "flex-start",
+  },
+  react_tab_item: {
+    
   },
 });
