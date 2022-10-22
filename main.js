@@ -86,6 +86,7 @@ import Button from "./components/Button";
 import TabButton from "./components/Tab-Button";
 import Row from "./components/Row";
 import calculator, { initialState } from "./components/calculator";
+import Column from "./components/Column";
 
 
 // create class component of App
@@ -103,10 +104,9 @@ export default class Main extends Component {
 
       <View style={styles.container}>
         {/* Status bae here */}
-        {/* <Button
+        <Button
           title="Go to Details"
-          onPress={() => navigation.navigate('Details')}
-        /> */}
+        />
         <SafeAreaView className="panel-content">
           <Text style={styles.value}>
             {(this.state.previousValue) ? parseFloat(this.state.previousValue).toLocaleString() : ""}
@@ -191,7 +191,8 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#202020",
-    flex: "auto",
+    justifyContent: "flex-end",
+    flex: 1,
   },
   value: {
     color: "#fff",

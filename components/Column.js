@@ -7,8 +7,8 @@ const Column = ({ children }) => {
 // create styles of Column
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flexDirection: "column",
+    flex: 1,
   },
 });
 

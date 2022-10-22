@@ -1,44 +1,63 @@
 // In App.js in a new project
 //UI source: https://towardsdev.com/how-to-build-a-calculator-app-using-react-native-a-step-by-step-tutorial-40ae327fae5f
 import * as React from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TabButton from "./components/Tab-Button";
+import Button from "./components/Button";
 import Row from "./components/Row";
 import Column from "./components/Column";
 import Main from './main';
 
+const Tab = createMaterialTopTabNavigator();
 
-const Stack = createNativeStackNavigator();
 function DetailsScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1 }}>
       <Text>Details Screen</Text>
+      <Row>
+            <Button text="7" onPress={() => this.HandleTap("number", 7)} />
+            <Button text="8" onPress={() => this.HandleTap("number", 8)} />
+            <Button text="9" onPress={() => this.HandleTap("number", 9)} />
+            <Button
+              text="X"
+              theme="accent"
+              onPress={() => this.HandleTap("operator", "*")}
+            />
+          </Row>
+          <Row>
+            <Button text="5" onPress={() => this.HandleTap("number", 5)} />
+            <Button text="6" onPress={() => this.HandleTap("number", 6)} />
+            <Button text="7" onPress={() => this.HandleTap("number", 7)} />
+            <Button
+              text="-"
+              theme="accent"
+              onPress={() => this.HandleTap("operator", "-")}
+              />
+          </Row>
     </View>
   );
 }
 function App() {
   return (
-    <View style={styles.container}>
-      <SafeAreaView>
+    <View>
+      <SafeAreaView style={styles.container}>
         <Column>
-          <Row style={styles.react_tab_list}>
-            <TabButton
-              style={styles.react_tab_item}
-              text="Calculator"
-              />
-            <TabButton
-              style={styles.react_tab_item}
-              text="Histories"
-              />
-          </Row>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Computer" component={Main} />
-              <Stack.Screen name="Details" component={DetailsScreen} />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <View>
+            <NavigationContainer>
+              <Tab.Navigator
+                initialRouteName="Computer"
+                screenOptions={{
+                  headerMode: 'screen',
+                  headerTintColor: 'white',
+                  headerStyle: { backgroundColor: 'tomato' },
+                }}
+              >
+                <Tab.Screen name="Computer" component={Main} />
+                <Tab.Screen name="Details" component={DetailsScreen} />
+              </Tab.Navigator>
+            </NavigationContainer>
+          </View>
         </Column>
       </SafeAreaView>
     </View>
@@ -49,17 +68,9 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#202020",
-    flexDirection: "column",
-    display: "flex",
+    justifyContent: "flex-end",
+    flex: 1,
   },
-  react_tab_list: {
-    justifyContent: "flex-start",
-  },
-  react_tab_item: {
-    
-  },
-  react_navigator: {
-  }
 });
 
 export default App;
