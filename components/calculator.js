@@ -2,7 +2,8 @@ export const initialState = {
   currentValue: "0",
   operator: null,
   previousValue: null,
-  answer: ""
+  answer: "",
+  record: ""
 };
 
 export const handleNumber = (value, state) => {
@@ -30,21 +31,25 @@ const handleEqual = (state) => {
   switch (operator) {
     case "+":
       return {
+        record: `${previous} + ${current} = ${currentValue}`,
         currentValue: `${previous + current}`,
         ...resetState,
       };
     case "-":
       return {
+        record: `${previous} - ${current} = ${currentValue}`,
         currentValue: `${previous - current}`,
         ...resetState,
       };
     case "*":
       return {
+        record: `${previous} * ${current} = ${currentValue}`,
         currentValue: `${previous * current}`,
         ...resetState,
       };
     case "/":
       return {
+        record: `${previous} / ${current} = ${currentValue}`,
         currentValue: `${previous / current}`,
         ...resetState,
       };

@@ -83,10 +83,9 @@
 import React, { Component, startTransition } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Button from "./components/Button";
-import TabButton from "./components/Tab-Button";
 import Row from "./components/Row";
 import calculator, { initialState } from "./components/calculator";
-import Column from "./components/Column";
+import { setHistories } from "./services/histories_service"
 
 
 // create class component of App
@@ -97,6 +96,11 @@ export default class Main extends Component {
   HandleTap = (type, value) => {
     this.setState((state) => calculator(type, value, state));
   };
+
+  // handle histories
+  storeHistory(value) {
+    setHistories(value);
+  }
 
   // render method
   render() {
@@ -177,7 +181,13 @@ export default class Main extends Component {
             <Button
               text="="
               theme="primary"
-              onPress={() => this.HandleTap("equal", "=")}
+              onPress={
+                () => {
+                  this.HandleTap("equal", "=");
+                  setHistories(this.state.record);
+                  console.log(this.state);
+                }
+              }
               />
           </Row>
         </SafeAreaView>
