@@ -1,30 +1,80 @@
-// In App.js in a new project
-//UI source: https://towardsdev.com/how-to-build-a-calculator-app-using-react-native-a-step-by-step-tutorial-40ae327fae5f
-import * as React from 'react';
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Main from './main';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, View, Dimensions, ListViewBase , FlatList} from 'react-native';
+import { CheckBox } from 'react-native-web';
+import KeyPadComponent from './KeypadComponent';
+// sửa lỗi paste phép tính
+// history, mở lại phép tính
+// search 
 
-
-const Stack = createNativeStackNavigator();
-function DetailsScreen() {
+const PizzaTranslator = () => {
+  const [history, setState] = useState([])
+  const [text, setText] = useState('');
+  const [input, setInput] = useState('');
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
+
+
+    <View style={{ padding: 10 }}>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Type here to calculate!"
+        onChangeText={
+          newText => {
+            console.log(newText);
+            setInput(newText.replace(/[^0-9 + -- * / ]/g, ''));
+            if (checkChar(newText.at(-1)) && checkChar(newText.at(-2))) {
+              setInput(newText.slice(0, -2) + newText.at(-1));
+            }
+          }}
+        onSubmitEditing={(_value) => {
+          if (!checkChar(_value.nativeEvent.text.at(-1))) {
+            var answer;
+            try {
+              answer = eval(_value.nativeEvent.text);
+            } catch (err) {
+              setInput("");
+              answer = "Input failed";
+            }
+            finally {
+              setText(answer);
+            }
+          }
+        }}
+        value={input} />
+      <Text>
+        Only number and +, -, *, /
+      </Text>
+      <Text style={{ padding: 10, fontSize: 30, textAlign: 'center', }}>
+        {text}
+      </Text>
+      <KeyPadComponent>
+
+      </KeyPadComponent>
     </View>
   );
 }
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Computer" component={Main} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+function checkChar(c) {
+  const a = ["+", "-", "*", "/"];
+  return a.includes(c);
 }
+const styles = StyleSheet.create({
+  input: {
+    borderColor: "gray",
+    width: "100%",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    textAlign: 'center',
+    marginTop: Dimensions.get('window').height / 3
+  },
+  container: {
+    flex: 1,
+    paddingTop: 22
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+});
 
-export default App;
