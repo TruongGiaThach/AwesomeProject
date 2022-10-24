@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Dimensions, ListViewBase , FlatList} from 'react-native';
-import { CheckBox } from 'react-native-web';
-import KeyPadComponent from './KeypadComponent';
+
 // sửa lỗi paste phép tính
 // history, mở lại phép tính
 // search 
 
 const PizzaTranslator = () => {
-  const [history, setState] = useState([])
   const [text, setText] = useState('');
   const [input, setInput] = useState('');
   return (
@@ -22,7 +20,7 @@ const PizzaTranslator = () => {
           newText => {
             console.log(newText);
             setInput(newText.replace(/[^0-9 + -- * / ]/g, ''));
-            if (checkChar(newText.at(-1)) && checkChar(newText.at(-2))) {
+            if (checkChar(newText.at(-1)) && checkChar(newText.at(-2))) {``
               setInput(newText.slice(0, -2) + newText.at(-1));
             }
           }}
@@ -47,9 +45,7 @@ const PizzaTranslator = () => {
       <Text style={{ padding: 10, fontSize: 30, textAlign: 'center', }}>
         {text}
       </Text>
-      <KeyPadComponent>
 
-      </KeyPadComponent>
     </View>
   );
 }
@@ -78,3 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default PizzaTranslator;
