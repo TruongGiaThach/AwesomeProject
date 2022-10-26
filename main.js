@@ -85,32 +85,37 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Button from "./components/Button";
 import Row from "./components/Row";
 import calculator, { initialState } from "./components/calculator";
-import { setHistories } from "./services/histories_service"
-
+import { getHistories, storeHistories } from "./services/histories_service";
 
 // create class component of App
 export default class Main extends Component {
+  // async componentDidMount() {
+  //   await storeHistories([]);
+  // }
   state = initialState;
 
   // handle tap method
-  HandleTap = (type, value) => {
-    this.setState((state) => calculator(type, value, state));
+  HandleTap = async (type, value) => {
+    await this.setState((state) =>
+      calculator(type, value, state)
+    );
   };
 
-  // handle histories
-  storeHistory(value) {
-    setHistories(value);
+  saveData = async () =>{
+    let c =  await getHistories();
+    if (c.length > 1)
+      c.pop();
+    c.unshift(this.state.record);
+    await storeHistories(c);
+    console.log(c);
   }
-
   // render method
   render() {
     return (
 
       <View style={styles.container}>
         {/* Status bae here */}
-        <Button
-          title="Go to Details"
-        />
+
         <SafeAreaView className="panel-content">
           <Text style={styles.value}>
             {(this.state.previousValue) ? parseFloat(this.state.previousValue).toLocaleString() : ""}
@@ -127,26 +132,26 @@ export default class Main extends Component {
               text="C"
               theme="secondary"
               onPress={() => this.HandleTap("clear")}
-              />
+            />
             <Button
               text="+/-"
               theme="secondary"
               onPress={() => this.HandleTap("posneg")}
-              />
+            />
             <Button
               text="%"
               theme="secondary"
               onPress={() => this.HandleTap("percentage")}
-              />
+            />
             <Button
               text="/"
               theme="accent"
               onPress={() => this.HandleTap("operator", "/")}
-              />
+            />
           </Row>
           {/* Number */}
           <Row>
-            <Button text="7" onPress={() => this.HandleTap("number", 7)} />
+            <Button text="7" onPress={ () =>  this.HandleTap("number", 7)} />
             <Button text="8" onPress={() => this.HandleTap("number", 8)} />
             <Button text="9" onPress={() => this.HandleTap("number", 9)} />
             <Button
@@ -163,7 +168,7 @@ export default class Main extends Component {
               text="-"
               theme="accent"
               onPress={() => this.HandleTap("operator", "-")}
-              />
+            />
           </Row>
           <Row>
             <Button text="1" onPress={() => this.HandleTap("number", 1)} />
@@ -173,7 +178,7 @@ export default class Main extends Component {
               text="+"
               theme="accent"
               onPress={() => this.HandleTap("operator", "+")}
-              />
+            />
           </Row>
           <Row>
             <Button text="0" onPress={() => this.HandleTap("number", 0)} />
@@ -183,12 +188,13 @@ export default class Main extends Component {
               theme="primary"
               onPress={
                 () => {
-                  this.HandleTap("equal", "=");
-                  setHistories(this.state.record);
-                  console.log(this.state);
+                  this.HandleTap("equal", "="),
+                  this.saveData()
+                  
+
                 }
               }
-              />
+            />
           </Row>
         </SafeAreaView>
 
@@ -203,6 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#202020",
     justifyContent: "flex-end",
     flex: 1,
+
   },
   value: {
     color: "#fff",
@@ -215,6 +222,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   react_tab_item: {
-    
+
   },
 });

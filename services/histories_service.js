@@ -1,15 +1,25 @@
-var histories = [];
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export function getHistories() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(
-          histories
-      )
-    }, 1500)
-  })
+
+export const storeHistories = async (value) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem('@storage_Key', jsonValue)
+  } catch (e) {
+    // saving error
+  }
 }
 
-export function setHistories(history) {
-  histories.push(history);
+
+export const getHistories = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('@storage_Key')
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch(e) {
+    // error reading value
+  }
 }
+
+
+
+

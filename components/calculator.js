@@ -1,8 +1,9 @@
+import { storeHistories } from "../services/histories_service";
+
 export const initialState = {
   currentValue: "0",
   operator: null,
   previousValue: null,
-  answer: "",
   record: ""
 };
 
@@ -31,32 +32,30 @@ const handleEqual = (state) => {
   switch (operator) {
     case "+":
       return {
-        record: `${previous} + ${current} = ${currentValue}`,
         currentValue: `${previous + current}`,
         ...resetState,
       };
     case "-":
       return {
-        record: `${previous} - ${current} = ${currentValue}`,
         currentValue: `${previous - current}`,
         ...resetState,
       };
     case "*":
       return {
-        record: `${previous} * ${current} = ${currentValue}`,
         currentValue: `${previous * current}`,
         ...resetState,
       };
     case "/":
       return {
-        record: `${previous} / ${current} = ${currentValue}`,
         currentValue: `${previous / current}`,
         ...resetState,
       };
 
     default:
       return state;
+
   }
+  
 };
 
 // calculator function
@@ -75,14 +74,20 @@ const calculator = (type, value, state) => {
         currentValue: `${parseFloat(state.currentValue) * 0.01}`,
       };
     case "operator":
-
       return {
         operator: value,
         previousValue: (state.previousValue != null) ? handleEqual(state).currentValue : state.currentValue,
-        currentValue: "0"
+        currentValue: "0",
       }
     case "equal":
-      return handleEqual(state);
+      let str = "";
+      if (state.operator != null)
+        str =  `${state.previousValue} ${state.operator} ${state.currentValue} = `;
+      else str = `${state.currentValue} = `;
+      let response = handleEqual(state);
+      str += response.currentValue;
+      response = {...response, ...{record: str}};
+      return response;
     default:
       return state;
   }
