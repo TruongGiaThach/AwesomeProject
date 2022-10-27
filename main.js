@@ -101,9 +101,10 @@ export default class Main extends Component {
     );
   };
 
-  saveData = async () =>{
-    let c =  await getHistories();
-    if (c.length > 1)
+  saveData = async () => {
+    let c = await getHistories();
+
+    if (c.length > 10)
       c.pop();
     c.unshift(this.state.record);
     await storeHistories(c);
@@ -151,7 +152,7 @@ export default class Main extends Component {
           </Row>
           {/* Number */}
           <Row>
-            <Button text="7" onPress={ () =>  this.HandleTap("number", 7)} />
+            <Button text="7" onPress={() => this.HandleTap("number", 7)} />
             <Button text="8" onPress={() => this.HandleTap("number", 8)} />
             <Button text="9" onPress={() => this.HandleTap("number", 9)} />
             <Button
@@ -189,8 +190,8 @@ export default class Main extends Component {
               onPress={
                 () => {
                   this.HandleTap("equal", "="),
-                  this.saveData()
-                  
+                    this.saveData()
+
 
                 }
               }

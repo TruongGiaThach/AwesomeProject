@@ -14,7 +14,7 @@ export const storeHistories = async (value) => {
 export const getHistories = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem('@storage_Key')
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    return jsonValue != null ? JSON.parse(jsonValue) : [];
   } catch(e) {
     // error reading value
   }

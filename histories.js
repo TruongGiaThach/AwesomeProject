@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useFocusEffect, useCallback } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Button } from 'react-native';
 import { storeHistories } from './services/histories_service';
 import { getHistories } from './services/histories_service';
 
 
 const Item = ({ title }) => (
-    <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
+    <View style={styles.item} >
+        <Text 
+        onPress={()=>{
+            
+        }}
+        style={styles.value}
+        >
+            {title}
+        </Text>
     </View>
 );
-
-const Histories = ({navigation}) => {
+const Histories = ({ navigation }) => {
 
     const renderItem = ({ item }) => (
         <Item title={item} />
@@ -23,13 +29,13 @@ const Histories = ({navigation}) => {
         }
         const unsubscribe = navigation.addListener('tabPress', (e) => {
             fetchData();
-          });
-      
-          return unsubscribe;
+        });
+
+        return unsubscribe;
     },
-    [navigation]  // useEffect chay lai khi co su thay doi trong cac bien nay
+        [navigation]  // useEffect chay lai khi co su thay doi trong cac bien nay
     );
-    
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
@@ -53,6 +59,14 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
+
+    },
+    value: {
+        color: "#000",
+        fontSize: 25,
+        textAlign: "right",
+        marginRight: 20,
+        marginBottom: 10,
     },
 });
 
