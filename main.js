@@ -89,9 +89,16 @@ import { getHistories, storeHistories } from "./services/histories_service";
 
 // create class component of App
 export default class Main extends Component {
-  // async componentDidMount() {
-  //   await storeHistories([]);
-  // }
+  async componentDidMount() {
+    let tmp = await getHistories('state');
+    let currentValue = (tmp == null) ? "0" : parseFloat(tmp).toLocaleString();
+    await this.setState(()=>{
+      let tmp_state = initialState;
+      tmp_state.currentValue = currentValue;
+      return tmp_state;
+    })
+    
+  }
   state = initialState;
 
   // handle tap method
@@ -102,12 +109,12 @@ export default class Main extends Component {
   };
 
   saveData = async () => {
-    let c = await getHistories();
+    let c = await getHistories('@storage_Key');
 
     if (c.length > 10)
       c.pop();
     c.unshift(this.state.record);
-    await storeHistories(c);
+    await storeHistories('@storage_Key',c);
     console.log(c);
   }
   // render method

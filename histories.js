@@ -6,11 +6,14 @@ import { getHistories } from './services/histories_service';
 
 const Item = ({ title }) => (
     <View style={styles.item} >
-        <Text 
-        onPress={()=>{
-            
-        }}
-        style={styles.value}
+        <Text
+            onPress={ async() => {
+                let arr = title.split(" ");
+                await storeHistories("state", arr[4])
+                console.log(arr[4])
+            }
+            }
+            style={styles.value}
         >
             {title}
         </Text>
@@ -24,7 +27,7 @@ const Histories = ({ navigation }) => {
     const [history, setHistory] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            let tmp = await getHistories();
+            let tmp = await getHistories('@storage_Key');
             setHistory(tmp);
         }
         const unsubscribe = navigation.addListener('tabPress', (e) => {
@@ -48,14 +51,16 @@ const Histories = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: "#202020",
+        justifyContent: "flex-end",
         flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
     },
     item: {
-        backgroundColor: '#f9c2ff',
+        backgroundColor: '#a6a6a6',
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,
+        borderRadius: 10
     },
     title: {
         fontSize: 32,
